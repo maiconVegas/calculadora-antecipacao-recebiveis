@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .coluna-esquerda,
+  .coluna-direita {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .coluna-esquerda {
+    background-color: #f2f2f2;
+  }
+  
+  .coluna-direita {
+    background-color: #e3f2fd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  
+    // input{
+    //   border: 2px black solid;
+    // }
+   
+  }
+  
+  
+  

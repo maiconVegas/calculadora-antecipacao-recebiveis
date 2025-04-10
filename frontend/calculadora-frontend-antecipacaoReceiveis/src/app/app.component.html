@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="coluna-esquerda">
+    <h3>Upload de Arquivo</h3>
+    <input type="file" (change)="onFileSelected($event)" />
+    <tabela-produtos [dados]="dadosProdutos" *ngIf="existeProduto"></tabela-produtos>
+  </div>
+
+  <div class="coluna-direita">
+    <h3>Informações</h3>
+
+    <mat-form-field>
+      <mat-label>Valor Total</mat-label>
+      <input matInput type="number" placeholder="Valor Total" [(ngModel)]="valorTotal" (ngModelChange)="onFieldChange()" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>CNPJ Cedente</mat-label>
+      <input matInput type="text" placeholder="Ex: xx.xxx.xxx/xxxx-xx" [(ngModel)]="cnpjCedente" (ngModelChange)="onFieldChange()" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Data Vencimento</mat-label>
+      <input matInput type="text" placeholder="Ex: DD/MM/AAAA" [(ngModel)]="dataVencimento" (ngModelChange)="onFieldChange()" required>
+    </mat-form-field>
+
+    <mat-form-field >
+      <mat-label>Dias Restantes</mat-label>
+      <input matInput type="number" disabled="true" placeholder="Dias Restantes do Vencimento" [(ngModel)]="diasRestantes">
+    </mat-form-field>
+
+    <mat-form-field >
+      <mat-label>Taxa Diária</mat-label>
+      <input matInput type="number" disabled="true" placeholder="Taxa Diária" [(ngModel)]="taxaDiaria">
+    </mat-form-field>
+
+    <button mat-flat-button [disabled]="botaoHabilitado" (click)="chamarDialogFilho()">Basic</button>
+  </div>
+</div>
+<div class="container">
+  aaaaaaaaa
+  <dialog-content-erros></dialog-content-erros>
+   <!-- ve o erro que so aparece os dialog content quando e colocado acima -->
+</div>

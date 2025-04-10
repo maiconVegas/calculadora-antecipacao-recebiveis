@@ -1,0 +1,48 @@
+<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+       class="mat-elevation-z8">
+
+  <ng-container matColumnDef="nome">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Nome
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="quantidade">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Quantidade
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.quantidade}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="valorUnitario">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Valor Unitário
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.valorUnitario}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="valorTotalProduto">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Valor Total
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.valorTotalProduto}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="cedenteCNPJ">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      CNPJ
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.cedenteCNPJ}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dataVencimento">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Data Vencimento
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.dataVencimento}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
