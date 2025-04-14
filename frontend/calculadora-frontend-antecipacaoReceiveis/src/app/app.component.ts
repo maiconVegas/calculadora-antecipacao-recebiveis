@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -11,6 +11,7 @@ import { DialogContentErrosDialog } from './components/dialog-content-erros/dial
 import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AdicionarSimulacaoService } from "./services/adicionarSimulacao.service";
+import { DialogContentTutorial } from "./components/dialog-content-tutorial/dialog-content-tutorial.component";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,18 @@ import { AdicionarSimulacaoService } from "./services/adicionarSimulacao.service
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
+ 
+  constructor(private calculadoraService: ObterResumoVendaService,
+    private simuladoraService: AdicionarSimulacaoService
+  ) { }
+
+  private tutorialDialog = inject(DialogContentTutorial)
+
+  ngAfterViewInit(): void{
+   this.tutorialDialog.openDialog();
+   
+  }
 
   readonly dialog = inject(MatDialog);
   openDialog(mensagem?: string[]) {
@@ -42,11 +54,21 @@ export class AppComponent {
 
   dadosProdutos: Produto[] = [];
 
-  constructor(private calculadoraService: ObterResumoVendaService,
-    private simuladoraService: AdicionarSimulacaoService
-  ) { }
+  
+
+  onLimparCampos() {
+    this.existeProduto = false;
+    this.dadosProdutos.length = 0;
+    this.valorTotal = '';
+    this.cnpjCedente = '';
+    this.dataVencimento = '';
+    this.diasRestantes = '';
+    this.taxaDiaria = '';
+    this.botaoHabilitado = true;
+  }
 
   onFileSelected(event: Event) {
+    this.existeValorTotalComTaxa = false;
     const input = event.target as HTMLInputElement;
 
     if (input.files && input.files.length > 0) {
@@ -69,14 +91,7 @@ export class AppComponent {
 
       error: err => {
         this.openDialog(err.error.errors.Mensagens);
-        this.existeProduto = false;
-        this.dadosProdutos.length = 0;
-        this.valorTotal = '';
-        this.cnpjCedente = '';
-        this.dataVencimento = '';
-        this.diasRestantes = '';
-        this.taxaDiaria = '';
-        this.botaoHabilitado = true;
+        this.onLimparCampos();
       }
     });
 

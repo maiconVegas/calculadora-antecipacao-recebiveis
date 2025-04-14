@@ -1,0 +1,40 @@
+<head>
+  <style>
+    p, h2, button, li {
+      font-family: sans-serif;;
+    }
+  </style>
+</head>
+<h2 mat-dialog-title>Calculadora Antecipação de Recebíveis</h2>
+<mat-dialog-content class="mat-typography">
+  <h2> Bem-Vindo! </h2>
+  <p> Aqui você poderá realizar simulações e prever o resultado final da sua antecipação recebível!</p>
+  <p>Apenas realizar o upload do seu arquivo Nota Fiscal ou preenchendo os campos poderá visualizar o resultado final.</p>
+  <h2> Upload de Arquivo </h2>
+  <p> No momento trabalhamos com arquivo csv (Comma-separated values), e nele deve conter pelo menos as seguintes colunas: 
+    Produto, Valor, Quantidade, Cedente (CNPJ) e Data de Vencimento.
+  </p>
+  <ul>
+    <li>Produto: Se refere o nome dos produtos</li>
+    <li>Valor: Se refere o valor por produto</li>
+    <li>Quantidade: Se refere a quantidade total do produto</li>
+    <li>Cedente (CNPJ): Se refere o CNPJ da pessoa ou instituição que vai receber o dinheiro ou pagamento</li>
+    <li>Data de Vencimento: Por fim, se refere a data de vencimento da Nota Fiscal</li>
+  </ul>
+  <p>Posteriormente, depois de conferir as informações no arquivo.csv, poderá realizar normalmente o upload do arquivo no campo, e com isso, o sistema preencherá as informações dadas pelo arquivo nos campos de forma automática!</p>
+  <h2> Campos </h2>
+  <p> Caso não tenha a nota fiscal em csv, não tem prolema! Apenas com informações como Valor Total, CNPJ do Cedente e a Data Vencimento, podemos prever o resultado final!</p>
+  <p>Para isso deve preencher esses três campos obrigatóriamente respeitando o formato de como será incluída as informações.</p>
+  <h2> Regras </h2>
+  
+  <p>As regras deve ser seguidas para que possibilitamos o cálculo da antecipação, e são elas:</p>
+  <ul>
+    <li>O valor Total deve ser maior que zero, considerando o valor total que irá receber de acordo com a nota fiscal</li>
+    <li>CNPJ do Cedente deve ser válidada, nosso sistema verifica se o cnpj é válido</li>
+    <li>Data Vencimento deve ter pelo menos 30 dias de vencimento, ou seja, se a nota fiscal vencer em menos de 30 dias, não realizamos o cálculo</li>
+  </ul>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Entendido</button>
+</mat-dialog-actions>
