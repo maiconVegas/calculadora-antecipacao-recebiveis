@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using System.Text;
 using CalculadoraAntecipacaoRecebiveis.Infrastructure.Extensions.CsvHelper;
 using FluentValidation.Results;
-using System.Globalization;
 using CalculadoraAntecipacaoRecebiveis.Core.Messaging;
 
 namespace CalculadoraAntecipacaoRecebiveis.Features.Vendas;

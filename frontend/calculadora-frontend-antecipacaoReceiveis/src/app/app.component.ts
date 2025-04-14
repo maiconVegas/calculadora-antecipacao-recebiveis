@@ -7,26 +7,26 @@ import { ObterResumoVendaService } from './services/obterResumoVenda.service';
 import { TabelaProdutosComponent } from './components/tabela-produtos/tabela-produtos.component';
 import { Produto } from './models/calculadoraAntecipacao.model';
 import { MatButtonModule } from '@angular/material/button';
-import { DialogContentErros } from './components/dialog-content-erros/dialog-content-erros.component';
-import { ViewChild } from '@angular/core';
+import { DialogContentErrosDialog } from './components/dialog-content-erros/dialog-content-erros.component';
+import { inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AdicionarSimulacaoService } from "./services/adicionarSimulacao.service";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, TabelaProdutosComponent, MatFormFieldModule, MatInputModule, MatButtonModule, DialogContentErros],
+  imports: [CommonModule, FormsModule, TabelaProdutosComponent, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
 
-  @ViewChild(DialogContentErros) dialogContentComponent!: DialogContentErros;
-
-  chamarDialogFilho(mensagemErro?: string) {
-    if (this.dialogContentComponent) {
-      this.dialogContentComponent.openDialog(mensagemErro);
-    }
+  readonly dialog = inject(MatDialog);
+  openDialog(mensagem?: string[]) {
+    this.dialog.open(DialogContentErrosDialog, {
+      data: { erros: mensagem }
+    });
   }
-
 
   selectedFile: File | null = null;
   valorTotal = '';
@@ -34,13 +34,17 @@ export class AppComponent {
   dataVencimento = '';
   diasRestantes = '';
   taxaDiaria = '';
+  valorTotalComTaxa = '';
+  existeValorTotalComTaxa: boolean = false;
   existeProduto: boolean = false;
   formTouched: boolean = false;
   botaoHabilitado = true;
 
   dadosProdutos: Produto[] = [];
 
-  constructor(private calculadoraService: ObterResumoVendaService) { }
+  constructor(private calculadoraService: ObterResumoVendaService,
+    private simuladoraService: AdicionarSimulacaoService
+  ) { }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -64,7 +68,7 @@ export class AppComponent {
       },
 
       error: err => {
-        this.chamarDialogFilho(err.error.errors.Mensagens + '');
+        this.openDialog(err.error.errors.Mensagens);
         this.existeProduto = false;
         this.dadosProdutos.length = 0;
         this.valorTotal = '';
@@ -81,10 +85,11 @@ export class AppComponent {
   onFieldChange() {
     this.selectedFile = null;
     this.existeProduto = false;
+    this.existeValorTotalComTaxa = false;
+    this.valorTotalComTaxa = '';
 
     if (!this.formTouched && (this.valorTotal || this.cnpjCedente || this.dataVencimento)) {
       this.formTouched = true;
-
     }
 
     if (this.formTouched) {
@@ -92,7 +97,6 @@ export class AppComponent {
 
         const partes = this.dataVencimento.split('/');
         this.diasRestantes = Math.ceil((new Date(+partes[2], +partes[1] - 1, +partes[0]).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)).toString();
-        console.log('Todos os 3 campos foram preenchidos com sucesso!');
         const diasRest = Number(this.diasRestantes);
         if (diasRest >= 30 && diasRest <= 60) {
           this.taxaDiaria = 0.033.toString();
@@ -110,11 +114,33 @@ export class AppComponent {
           this.taxaDiaria = '';
         }
 
-        //this.botaoHabilitado = false;
+        if (this.valorTotal && this.cnpjCedente && this.dataVencimento && this.diasRestantes && this.taxaDiaria) {
+          this.botaoHabilitado = false;
+        } else {
+          this.botaoHabilitado = true;
+        }
 
-
+      } else {
+        this.botaoHabilitado = true;
       }
     }
   }
 
+  onInputSimulator() {
+    this.simuladoraService.simularDados(this.valorTotal,
+      this.cnpjCedente,
+      this.dataVencimento,
+      this.diasRestantes,
+      this.taxaDiaria,
+      this.selectedFile).subscribe({
+        next: (res) => {
+          //this.openDialog([res.valorTotalComTaxa.toString(), res.dateTimeSimulado]);
+          this.existeValorTotalComTaxa = res.valorTotalComTaxa > 0;
+          this.valorTotalComTaxa = res.valorTotalComTaxa.toString();
+        },
+        error: err => {
+          this.openDialog(err.error.errors.Mensagens);
+        }
+      });
+  }
 }

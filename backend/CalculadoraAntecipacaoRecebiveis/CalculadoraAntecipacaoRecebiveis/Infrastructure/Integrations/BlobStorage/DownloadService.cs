@@ -1,11 +1,5 @@
-﻿using Azure;
-using Azure.Storage.Blobs;
-using Azure.Storage.Sas;
+﻿using Azure.Storage.Blobs;
 using Microsoft.Extensions.Options;
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CalculadoraAntecipacaoRecebiveis.Infrastructure.Integrations.BlobStorage
 {

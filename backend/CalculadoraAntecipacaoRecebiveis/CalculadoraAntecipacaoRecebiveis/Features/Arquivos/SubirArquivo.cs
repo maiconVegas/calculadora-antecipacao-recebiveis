@@ -1,8 +1,6 @@
-﻿using System.Net;
-using CalculadoraAntecipacaoRecebiveis.Infrastructure.Integrations.BlobStorage;
+﻿using CalculadoraAntecipacaoRecebiveis.Infrastructure.Integrations.BlobStorage;
 using CalculadoraAntecipacaoRecebiveis.Core.Messaging;
 using FluentValidation;
-using MediatR;
 
 namespace CalculadoraAntecipacaoRecebiveis.Features.Arquivos;
 public static class SubirArquivo

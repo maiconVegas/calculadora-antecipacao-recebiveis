@@ -2,7 +2,6 @@
 using CalculadoraAntecipacaoRecebiveis.Core.Messaging;
 using CalculadoraAntecipacaoRecebiveis.Core.Paginator;
 using MediatR;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CalculadoraAntecipacaoRecebiveis.Features.Arquivos
 {

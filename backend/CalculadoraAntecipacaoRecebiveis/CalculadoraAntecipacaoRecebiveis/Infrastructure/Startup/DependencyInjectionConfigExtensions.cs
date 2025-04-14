@@ -2,7 +2,6 @@
 using CalculadoraAntecipacaoRecebiveis.Infrastructure.Extensions.CsvHelper;
 using CalculadoraAntecipacaoRecebiveis.Infrastructure.Integrations.BlobStorage;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace CalculadoraAntecipacaoRecebiveis.Infrastructure.Startup
 {

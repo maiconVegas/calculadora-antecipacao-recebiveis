@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Text;
 using CalculadoraAntecipacaoRecebiveis.Infrastructure.Integrations.BlobStorage;
 using CalculadoraAntecipacaoRecebiveis.Core.Messaging;
 using MediatR;

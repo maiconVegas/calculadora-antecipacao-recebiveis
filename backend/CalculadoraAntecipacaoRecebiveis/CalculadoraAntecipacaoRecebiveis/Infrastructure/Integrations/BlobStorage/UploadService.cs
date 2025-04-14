@@ -1,7 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CalculadoraAntecipacaoRecebiveis.Infrastructure.Integrations.BlobStorage
 {

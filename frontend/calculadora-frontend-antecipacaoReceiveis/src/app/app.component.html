@@ -10,7 +10,7 @@
 
     <mat-form-field>
       <mat-label>Valor Total</mat-label>
-      <input matInput type="number" placeholder="Valor Total" [(ngModel)]="valorTotal" (ngModelChange)="onFieldChange()" required>
+      <input matInput type="number" placeholder="Ex: 20750.99" [(ngModel)]="valorTotal" (ngModelChange)="onFieldChange()" required>
     </mat-form-field>
 
     <mat-form-field>
@@ -33,11 +33,11 @@
       <input matInput type="number" disabled="true" placeholder="Taxa Diária" [(ngModel)]="taxaDiaria">
     </mat-form-field>
 
-    <button mat-flat-button [disabled]="botaoHabilitado" (click)="chamarDialogFilho()">Basic</button>
+    <mat-form-field class="resultado" *ngIf="existeValorTotalComTaxa">
+      <mat-label>Resultado</mat-label>
+      <input matInput type="number" disabled="true" placeholder="Taxa Diária" [(ngModel)]="valorTotalComTaxa">
+    </mat-form-field>
+
+    <button mat-flat-button [disabled]="botaoHabilitado" (click)="onInputSimulator()">Calcular</button>
   </div>
-</div>
-<div class="container">
-  aaaaaaaaa
-  <dialog-content-erros></dialog-content-erros>
-   <!-- ve o erro que so aparece os dialog content quando e colocado acima -->
 </div>

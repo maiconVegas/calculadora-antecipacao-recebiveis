@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dialog-content-erros',
@@ -25,11 +26,11 @@ export class DialogContentErros {
 @Component({
   selector: 'dialog-content-erros-dialog',
   templateUrl: 'dialog-content-erros.component-dialog.html',
-  imports: [MatDialogModule, MatButtonModule],
+  imports: [MatDialogModule, MatButtonModule, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 
 })
 export class DialogContentErrosDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { erros: string }) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { erros: string[] }) { }
 }

@@ -1,9 +1,7 @@
 ﻿using System.Net;
-using CalculadoraAntecipacaoRecebiveis.Core.Messaging;
 using CalculadoraAntecipacaoRecebiveis.Core.Controllers;
 using CalculadoraAntecipacaoRecebiveis.Core.Paginator;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CalculadoraAntecipacaoRecebiveis.Features.Arquivos;
