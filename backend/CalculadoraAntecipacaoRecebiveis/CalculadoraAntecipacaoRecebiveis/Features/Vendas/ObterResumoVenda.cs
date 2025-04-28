@@ -5,7 +5,6 @@ using System.Text;
 using CalculadoraAntecipacaoRecebiveis.Infrastructure.Extensions.CsvHelper;
 using FluentValidation.Results;
 using CalculadoraAntecipacaoRecebiveis.Core.Messaging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CalculadoraAntecipacaoRecebiveis.Features.Vendas;
 
