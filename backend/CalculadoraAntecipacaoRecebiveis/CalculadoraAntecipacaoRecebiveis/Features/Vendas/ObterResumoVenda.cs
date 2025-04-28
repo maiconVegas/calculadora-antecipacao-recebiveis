@@ -5,6 +5,7 @@ using System.Text;
 using CalculadoraAntecipacaoRecebiveis.Infrastructure.Extensions.CsvHelper;
 using FluentValidation.Results;
 using CalculadoraAntecipacaoRecebiveis.Core.Messaging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CalculadoraAntecipacaoRecebiveis.Features.Vendas;
 
@@ -165,6 +166,15 @@ public static class ObterResumoVenda
                 return Error<Response>();
             }
 
+            var errosCampos = await ValidarCelulasProdutos(novoStream, cancellationToken);
+            if (errosCampos.Any())
+            {
+                foreach (var erro in errosCampos)
+                {
+                    AdicionarErro(erro);
+                }
+                return Error<Response>();
+            }
             var produtos = await _csvService.GetProdutosAsync(novoStream, cancellationToken);
             var erros = await ValidarProdutos(produtos, cancellationToken);
 
@@ -203,6 +213,52 @@ public static class ObterResumoVenda
             };
 
             return Success(response);
+        }
+
+        private async Task<List<string>> ValidarCelulasProdutos(Stream novoStream, CancellationToken cancellationToken)
+        {
+            var erros = new List<string>();
+
+            using (var reader = new StreamReader(novoStream, leaveOpen: true))
+            {
+                var cabecalhoLine = await reader.ReadLineAsync(cancellationToken);
+                var cabecalho = cabecalhoLine.Split(";");
+                int count = 1;
+
+                while (!reader.EndOfStream)
+                {
+                    var linha = await reader.ReadLineAsync(cancellationToken);
+                    var linhas = linha.Split(";");
+
+                    if (cabecalho.Length != linhas.Length)
+                    {
+                        erros.Add($"Na linha {count} do arquivo tem campos faltando em comparação com Cabeçalho");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < cabecalho.Length; i++)
+                        {
+                            if (string.IsNullOrEmpty(linhas[i]))
+                            {
+                                erros.Add($"Na linha {count} e na coluna {i+1} - ({cabecalho[i]}) tem campo vázio");
+                            }
+                            if (cabecalho[i].Equals("valor") && !double.TryParse(linhas[i], out var _))
+                            {
+                                erros.Add($"Na linha {count} e na coluna {i + 1} - ({cabecalho[i]}) o valor '{linhas[i]}' não é um número válido");
+                            }
+                            if (cabecalho[i].Equals("quantidade") && !int.TryParse(linhas[i], out var _))
+                            {
+                                erros.Add($"Na linha {count} e na coluna {i + 1} - ({cabecalho[i]}) a quantidade '{linhas[i]}' não é um número válido");
+                            }
+                        }
+                    }
+
+                    count++;
+                }
+            }
+            
+            novoStream.Position = 0;
+            return erros;
         }
 
         private double CalcularTaxaDiaria(int diasRestantes) => diasRestantes switch
