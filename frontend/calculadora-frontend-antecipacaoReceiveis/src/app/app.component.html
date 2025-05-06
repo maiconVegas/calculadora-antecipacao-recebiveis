@@ -1,7 +1,7 @@
 <div class="container">
   <div class="coluna-esquerda">
     <h3>Upload de Arquivo</h3>
-    <input type="file" (change)="onFileSelected($event)" />
+    <input type="file" (change)="onFileSelected($event)" class="inputFile"/>
     <tabela-produtos [dados]="dadosProdutos" *ngIf="existeProduto"></tabela-produtos>
   </div>
 

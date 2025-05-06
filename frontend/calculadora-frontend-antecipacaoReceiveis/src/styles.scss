@@ -3,7 +3,6 @@
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
-  height: 100%;
 
   @include mat.theme((color: (theme-type: light,
         primary: mat.$azure-palette,
@@ -18,8 +17,4 @@ body {
       // filled-disabled-label-text-color: yellow,
       // filled-disabled-active-indicator-color: yellow,
     ));
-}
-
-html {
-  height: 100%;
 }
